@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sarcasm Detector</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: #f7f7fb;
+      }
+      .card {
+        width: min(90vw, 520px);
+        background: #fff;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      }
+      textarea {
+        width: 100%;
+        min-height: 110px;
+        box-sizing: border-box;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #cfd3dc;
+        font-size: 16px;
+      }
+      button {
+        margin-top: 10px;
+        padding: 10px 14px;
+        border: 0;
+        border-radius: 8px;
+        background: #2563eb;
+        color: #fff;
+        cursor: pointer;
+      }
+      #result {
+        margin-top: 12px;
+        font-size: 20px;
+      }
+      #emoji {
+        font-size: 40px;
+        display: block;
+        margin-top: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <h1>Sarcasm Detector</h1>
+      <label for="textInput">Enter text:</label>
+      <textarea id="textInput" placeholder="Type a sentence..."></textarea>
+      <button id="checkBtn" type="button">Check</button>
+      <section id="result" aria-live="polite"></section>
+    </main>
+
+    <script>
+      const sarcasticSignals = [
+        "yeah right",
+        "as if",
+        "sure",
+        "totally",
+        "wow",
+        "great",
+        "/s"
+      ];
+
+      function isSarcastic(text) {
+        const value = text.toLowerCase().trim();
+        if (!value) return false;
+        return sarcasticSignals.some((signal) => value.includes(signal));
+      }
+
+      document.getElementById("checkBtn").addEventListener("click", () => {
+        const input = document.getElementById("textInput").value;
+        const sarcastic = isSarcastic(input);
+        const result = document.getElementById("result");
+
+        if (sarcastic) {
+          result.innerHTML = 'Sarcastic text detected! <span id="emoji" role="img" aria-label="laughing emoji">😂</span>';
+        } else {
+          result.innerHTML = 'Not sarcastic / not funny. <span id="emoji" role="img" aria-label="confused emoji">😕</span>';
+        }
+      });
+    </script>
+  </body>
+</html>
