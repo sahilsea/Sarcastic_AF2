@@ -9,4 +9,4 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-You're ready to go
+You're ready to go .
