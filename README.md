@@ -1,6 +1,6 @@
 # Sarcastic_AF2
 A sarcastic Python project 🎭
----
+
 ## Installation (Windows)
 
 ```bash
@@ -9,4 +9,4 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-You're ready to go 🚀
+You're ready to go
