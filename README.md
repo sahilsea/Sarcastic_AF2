@@ -1,12 +1,20 @@
 # Sarcastic_AF2
-Sarcastic_AF2
 
-# --- INSTALLATION INSTRUCTIONS (Windows) ---
-# 1. Open Command Prompt or PowerShell in this folder.
-# 2. Create a virtual environment (optional but recommended):
-#    python -m venv .venv
-# 3. Activate the virtual environment:
-#    .\.venv\Scripts\activate
-# 4. Install all the required libraries at once using this command:
-#    pip install -r requirements.txt
-# -----------------------------------------
+Welcome to **Sarcastic_AF2** 🎭  
+A project with attitude, sarcasm, and just enough chaos to keep things interesting.
+
+---
+
+## 🛠 Installation Instructions (Windows)
+
+Follow these steps carefully to set up the project on your system.
+
+### 1️⃣ Open Terminal
+Open **Command Prompt** or **PowerShell** in this project folder.
+
+---
+
+### 2️⃣ Create a Virtual Environment *(Optional but Recommended)*
+
+```bash
+python -m venv .venv
