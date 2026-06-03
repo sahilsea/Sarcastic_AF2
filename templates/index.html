@@ -1,0 +1,469 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Arcane Sarcasm Engine</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Custom magical effects */
+        .glass-parchment {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            background-color: rgba(35, 32, 15, 0.85); /* surface-container */
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(233, 195, 73, 0.2); /* secondary */
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.5);
+        }
+
+        .scroll-input {
+            background-image: repeating-linear-gradient(transparent, transparent 31px, rgba(139, 146, 142, 0.1) 32px); /* outline */
+            background-attachment: local;
+        }
+
+        .shimmer-hover:hover {
+            position: relative;
+            overflow: hidden;
+        }
+        .shimmer-hover:hover::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(to right, transparent, rgba(233, 195, 73, 0.2), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .glow-active {
+            box-shadow: 0 0 25px rgba(233, 195, 73, 0.6), inset 0 0 15px rgba(233, 195, 73, 0.3);
+        }
+
+        .needle-jitter {
+            transform-origin: bottom center;
+        }
+        @keyframes jitter {
+            0% { transform: translateX(-50%) rotate(calc(var(--rotation) - 2deg)); }
+            50% { transform: translateX(-50%) rotate(calc(var(--rotation) + 1deg)); }
+            100% { transform: translateX(-50%) rotate(calc(var(--rotation) - 1.5deg)); }
+        }
+        
+        @keyframes muggle-bounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-12px) scale(1.02); }
+        }
+        .animate-muggle-bounce {
+            animation: muggle-bounce 0.8s ease-in-out infinite;
+        }
+        
+        @keyframes magic-pulse {
+            0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 10px rgba(233, 195, 73, 0.4); }
+            50% { opacity: 0.8; transform: scale(1.02); box-shadow: 0 0 25px rgba(233, 195, 73, 0.7); }
+        }
+        .animate-magic-pulse {
+            animation: magic-pulse 1s infinite ease-in-out;
+        }
+
+        /* NEW ANIMATIONS */
+        @keyframes chamber-shake {
+            0%, 100% { transform: translate(0, 0) rotate(0); }
+            10% { transform: translate(-2px, -2px) rotate(-0.5deg); }
+            20% { transform: translate(2px, 0px) rotate(0.5deg); }
+            30% { transform: translate(-3px, 2px) rotate(0deg); }
+            40% { transform: translate(3px, 2px) rotate(0.5deg); }
+            50% { transform: translate(-2px, -2px) rotate(-0.5deg); }
+            60% { transform: translate(2px, 1px) rotate(0deg); }
+            70% { transform: translate(-3px, 1px) rotate(-0.5deg); }
+            80% { transform: translate(3px, -1px) rotate(0.5deg); }
+            90% { transform: translate(-2px, 2px) rotate(0deg); }
+        }
+        .animate-chamber-shake {
+            animation: chamber-shake 0.4s cubic-bezier(.36,.07,.19,.97) both infinite;
+        }
+
+        @keyframes aura-pulse {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(173, 206, 192, 0.4)) brightness(1); }
+            50% { filter: drop-shadow(0 0 25px rgba(233, 195, 73, 0.8)) brightness(1.3); }
+        }
+        .animate-aura-pulse {
+            animation: aura-pulse 1.5s infinite ease-in-out;
+        }
+
+        @keyframes magic-surge {
+            0% { opacity: 0; }
+            20% { opacity: 0.4; background: radial-gradient(circle, rgba(233, 195, 73, 0.3) 0%, transparent 70%); }
+            100% { opacity: 0; }
+        }
+        #magicFlash {
+            pointer-events: none;
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: white;
+            opacity: 0;
+            transition: opacity 0.1s ease-out;
+        }
+
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            border-radius: 50%;
+            z-index: 60;
+            filter: blur(1px);
+        }
+
+        .bg-magic-forest {
+            background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCs3AfPrzVXtMuXtM1dQmtRmGDG2MNSJ03i3UzXRiP17SWRLemKXKdFdPo2OVT66BPt0YEiS2C5MlU-5q1-WMeEevfIfsl0sP4ohR-E5etSrfCOOLmmg4uJbUXCWrxKzNEfhBfoYcNDEzbnBUFs1w3GUDIg5P-zoKhSh-8FGgR7hcpeL3-wZACCqbFw4J9_UwbtREYr9zcYtAmY-HxV9fmKtQ9trF-YQoZOz9M0knN01g0sr85MOZ6-eQIBqjcXCwkWy0J59SJbHFw');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* Gauge Specific Styles */
+        .gauge-svg {
+            transform: rotate(-180deg);
+            transform-origin: center;
+        }
+        .gauge-background {
+            stroke: rgba(139, 146, 142, 0.15); /* outline-variant opacity */
+        }
+        .gauge-progress {
+            transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            stroke-linecap: round;
+        }
+        .gauge-glow {
+            filter: drop-shadow(0 0 8px rgba(233, 195, 73, 0.8));
+        }
+    </style>
+{% include "tailwind_config.html" %}
+</head>
+<body class="bg-magic-forest min-h-screen text-on-surface font-body-md text-body-md flex flex-col selection:bg-secondary-container selection:text-on-secondary-container">
+<div id="magicFlash"></div>
+<!-- TopAppBar -->
+{% include "top_nav.html" %}
+<!-- Main Canvas -->
+<main class="flex-grow flex flex-col items-center p-margin-page w-full max-w-7xl mx-auto pb-32 md:pb-margin-page gap-stack-lg relative">
+<!-- Central Chamber of Detection -->
+<section class="glass-parchment rounded-xl w-full p-8 md:p-12 relative overflow-hidden" id="chamberContainer">
+<!-- Corner Accents -->
+<div class="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-secondary/40 rounded-tl-xl m-4"></div>
+<div class="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-secondary/40 rounded-tr-xl m-4"></div>
+<div class="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-secondary/40 rounded-bl-xl m-4"></div>
+<div class="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-secondary/40 rounded-br-xl m-4"></div>
+<h2 class="font-headline-lg text-headline-lg text-secondary text-center mb-10 tracking-wide">
+            Chamber of Detection
+        </h2>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative">
+<!-- Muggle Character -->
+<div class="lg:col-span-2 flex flex-col items-center gap-2">
+<img alt="The Muggle" class="w-48 h-auto object-contain transition-all duration-500" id="muggleCharacter" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAv8lgZiPMtRBL5rBlH9yNvVgUBS9pN6ni5ck0N8tuWcufSUb0IjJXpmQQD7u_TnSP0aJwSaT2GF-fu5iyH8fF0OgNCbpZW4P4XIoiSEgJM_JvqKhcFa4wxRR76rT7xidlTpA0_mEyDqtJbSZPdP7UHpPrLPiJn_jAA-WHMTse5txnEuZ-IW8DNS-TOtdl5831SaMCzLbTHskzDjYXPSAn0XaOUCbpmRGiPsPMtAjIJdkVEktn9lkQqLX3DTAXYXG3gx4wRSNKRtM">
+<div class="text-center">
+<h3 class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">The Muggle</h3>
+<p class="text-on-surface-variant text-xs italic" id="muggleStatus">Awaiting earthly text...</p>
+</div>
+</div>
+<!-- Input Area -->
+<div class="lg:col-span-4 flex flex-col gap-4">
+<div class="relative group">
+<div class="absolute -inset-1 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+<textarea class="relative w-full h-48 bg-surface-container-low/60 border border-outline/50 rounded-lg p-6 text-on-surface font-body-md focus:ring-2 focus:ring-secondary focus:border-secondary scroll-input placeholder:text-on-surface-variant/50 transition-all resize-none shadow-inner" id="muggleInput" placeholder="Scribe the words you wish to analyze for hidden arcane meaning..."></textarea>
+<span class="material-symbols-outlined absolute bottom-4 right-4 text-outline/50 group-hover:text-secondary/80 transition-colors pointer-events-none">edit</span>
+</div>
+<button class="bg-surface-container-highest border border-secondary text-secondary font-label-sm text-label-sm uppercase py-3 px-6 rounded-full shimmer-hover transition-all flex items-center justify-center gap-3 w-full group shadow-md disabled:opacity-70 disabled:cursor-not-allowed" id="castBtn">
+<span class="material-symbols-outlined group-hover:rotate-12 transition-transform" id="castBtnIcon">magic_button</span>
+<span id="castBtnText" class="">Cast Divination</span>
+</button>
+</div>
+<!-- Analysis Area (Updated Gauge) -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<div class="flex flex-col items-center justify-center relative">
+<div class="w-48 h-48 rounded-full relative flex items-center justify-center bg-surface-container-lowest/80 shadow-inner overflow-hidden" id="gaugeContainer">
+<!-- Semi-circular SVG Gauge -->
+<svg class="gauge-svg w-full h-full p-4" viewBox="0 0 100 100">
+<!-- Background Track -->
+<circle class="gauge-background" cx="50" cy="50" fill="none" r="40" stroke-dasharray="125.6 251.2" stroke-dashoffset="0" stroke-width="8"></circle>
+<!-- Progress Fill -->
+<circle class="gauge-progress" cx="50" cy="50" fill="none" id="gaugePath" r="40" stroke="url(#arcaneGradient)" stroke-dasharray="125.6 251.2" stroke-dashoffset="125.6" stroke-width="8"></circle>
+<defs>
+<linearGradient id="arcaneGradient" x1="0%" x2="100%" y1="0%">
+<stop offset="0%" style="stop-color:#adcec0; stop-opacity:1"></stop> <!-- Primary -->
+<stop offset="100%" style="stop-color:#e9c349; stop-opacity:1"></stop> <!-- Secondary -->
+</linearGradient>
+</defs>
+</svg>
+<!-- Needle -->
+<div class="absolute w-0.5 h-20 bg-secondary bottom-1/2 left-1/2 transform -translate-x-1/2 rounded-t-full needle-jitter z-30 origin-bottom transition-transform duration-[1500ms] ease-in-out" id="gaugeNeedle" style="--rotation: -90deg; transform: translateX(-50%) rotate(-90deg); box-shadow: 0 0 15px rgba(233, 195, 73, 1);"></div>
+<!-- Center Hub -->
+<div class="w-4 h-4 bg-secondary rounded-full absolute bottom-1/2 left-1/2 transform translate-y-1/2 -translate-x-1/2 z-40 border border-surface"></div>
+<!-- Percentage Display -->
+<div class="absolute bottom-6 flex flex-col items-center z-20">
+<span class="font-headline-lg text-secondary text-4xl" id="gaugeValue">0<span class="text-lg">%</span></span>
+</div>
+</div>
+<p class="font-label-sm text-xs text-on-surface-variant mt-4 tracking-widest uppercase">Sarcasm Resonance</p>
+</div>
+<div class="bg-surface-container-high/60 border border-outline/30 rounded-lg p-4 relative min-h-[100px] flex items-center" id="scryingBowl">
+<span class="material-symbols-outlined absolute top-2 left-2 text-tertiary/20 text-2xl">format_quote</span>
+<p class="text-on-surface-variant/70 italic text-center text-xl relative z-10 font-body-md w-full transition-all duration-500" id="scryingText">
+                        The scrying bowl is empty. Scribe your intent to reveal the hidden truths.
+                    </p>
+</div>
+</div>
+<!-- Wizard Character -->
+<div class="lg:col-span-2 flex flex-col items-center gap-2">
+<img alt="The Grand Wizard" class="w-48 h-auto object-contain transition-all duration-500" id="wizardCharacter" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyoFzoE6akhG0yUgBoXI7yatsisVGC-mJ3bZfuMOrD0VrpaFaPC1qWS9PhRHwFhS1Y92E0vQuyxzrg4Iu8OiRJoyMXdfHYQQ0dTVEUsPekJmH63sLBWZ3HYI9ylYL1RCNKc9-GWtG6vw-PiyIAEwuvtL74dZdlN85PpEacznewHqa_uPCvp5tinJf6aSFkuGxWlf4M9ofEutH1O3NrjdtdqlKaN6y5y7wqykeCY7OjkK113Ovf5A2YxAu7dnhFSXsPFc0VgaJdtxI">
+<div class="text-center">
+<h3 class="font-label-sm text-label-sm text-tertiary uppercase tracking-widest">The Grand Wizard</h3>
+<p class="text-on-surface-variant text-xs italic" id="wizardStatus">Analyzing intent...</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Grimoire of Examples -->
+<section class="w-full">
+<div class="flex items-center gap-4 mb-6">
+<span class="material-symbols-outlined text-secondary">import_contacts</span>
+<h3 class="font-headline-lg text-headline-lg-mobile text-on-surface">Grimoire of Examples</h3>
+<div class="flex-grow h-px bg-gradient-to-r from-secondary/30 to-transparent"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<button class="bg-surface-container/80 border border-outline/30 hover:border-secondary/50 rounded-lg p-4 text-left transition-all hover:-translate-y-1 hover:shadow-[0_4px_20px_rgba(233,195,73,0.1)] group flex flex-col justify-between h-32" onclick="setMuggleValue('Oh, brilliant, another meeting.')">
+<p class="text-on-surface font-body-md line-clamp-3">"Oh, brilliant, another meeting."</p>
+<div class="flex items-center gap-2 mt-2 text-secondary/60 group-hover:text-secondary text-sm">
+<span class="material-symbols-outlined text-sm">auto_fix_normal</span>
+<span class="font-label-sm uppercase tracking-wider text-[10px]">Inscribe</span>
+</div>
+</button>
+<button class="bg-surface-container/80 border border-outline/30 hover:border-secondary/50 rounded-lg p-4 text-left transition-all hover:-translate-y-1 hover:shadow-[0_4px_20px_rgba(233,195,73,0.1)] group flex flex-col justify-between h-32" onclick="setMuggleValue('The weather is lovely today, if you enjoy swimming to work.')">
+<p class="text-on-surface font-body-md line-clamp-3">"The weather is lovely today, if you enjoy swimming to work."</p>
+<div class="flex items-center gap-2 mt-2 text-secondary/60 group-hover:text-secondary text-sm">
+<span class="material-symbols-outlined text-sm">auto_fix_normal</span>
+<span class="font-label-sm uppercase tracking-wider text-[10px]">Inscribe</span>
+</div>
+</button>
+<button class="bg-surface-container/80 border border-outline/30 hover:border-secondary/50 rounded-lg p-4 text-left transition-all hover:-translate-y-1 hover:shadow-[0_4px_20px_rgba(233,195,73,0.1)] group flex flex-col justify-between h-32" onclick="setMuggleValue('I just love it when my code compiles on the first try. Said no one ever.')">
+<p class="text-on-surface font-body-md line-clamp-3">"I just love it when my code compiles on the first try. Said no one ever."</p>
+<div class="flex items-center gap-2 mt-2 text-secondary/60 group-hover:text-secondary text-sm">
+<span class="material-symbols-outlined text-sm">auto_fix_normal</span>
+<span class="font-label-sm uppercase tracking-wider text-[10px]">Inscribe</span>
+</div>
+</button>
+<button class="bg-surface-container/80 border border-outline/30 hover:border-secondary/50 rounded-lg p-4 text-left transition-all hover:-translate-y-1 hover:shadow-[0_4px_20px_rgba(233,195,73,0.1)] group flex flex-col justify-between h-32" onclick="setMuggleValue('Wow, a 50 page manual for a toaster. Exactly what I needed.')">
+<p class="text-on-surface font-body-md line-clamp-3">"Wow, a 50 page manual for a toaster. Exactly what I needed."</p>
+<div class="flex items-center gap-2 mt-2 text-secondary/60 group-hover:text-secondary text-sm">
+<span class="material-symbols-outlined text-sm">auto_fix_normal</span>
+<span class="font-label-sm uppercase tracking-wider text-[10px]">Inscribe</span>
+</div>
+</button>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+{% include "bottom_nav.html" %}
+<script>
+    const muggleInput = document.getElementById('muggleInput');
+    const muggleCharacter = document.getElementById('muggleCharacter');
+    const wizardCharacter = document.getElementById('wizardCharacter');
+    const muggleStatus = document.getElementById('muggleStatus');
+    const castBtn = document.getElementById('castBtn');
+    const castBtnText = document.getElementById('castBtnText');
+    const castBtnIcon = document.getElementById('castBtnIcon');
+    const gaugeValue = document.getElementById('gaugeValue');
+    const gaugeNeedle = document.getElementById('gaugeNeedle');
+    const gaugePath = document.getElementById('gaugePath');
+    const scryingText = document.getElementById('scryingText');
+    const wizardStatus = document.getElementById('wizardStatus');
+    const chamberContainer = document.getElementById('chamberContainer');
+    const scryingBowl = document.getElementById('scryingBowl');
+    const magicFlash = document.getElementById('magicFlash');
+
+    const MAX_CIRCUMFERENCE = 125.6;
+
+    function createParticles(x, y) {
+        const colors = ['#e9c349', '#adcec0', '#ddb7ff', '#ffffff'];
+        const container = scryingBowl;
+        const rect = container.getBoundingClientRect();
+        
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            const size = Math.random() * 4 + 2;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            particle.style.left = `50%`;
+            particle.style.top = `50%`;
+            particle.style.boxShadow = `0 0 10px ${particle.style.backgroundColor}`;
+            
+            container.appendChild(particle);
+
+            const destinationX = (Math.random() - 0.5) * 300;
+            const destinationY = (Math.random() - 0.5) * 200;
+            const rotation = Math.random() * 360;
+            const duration = Math.random() * 1000 + 800;
+
+            const animation = particle.animate([
+                { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+                { transform: `translate(${destinationX}px, ${destinationY}px) scale(0) rotate(${rotation}deg)`, opacity: 0 }
+            ], {
+                duration: duration,
+                easing: 'cubic-bezier(0, .9, .57, 1)'
+            });
+
+            animation.onfinish = () => particle.remove();
+        }
+    }
+
+    function triggerMagicSequence() {
+        // 1. Flash Background
+        magicFlash.style.opacity = '0.3';
+        setTimeout(() => magicFlash.style.opacity = '0', 200);
+
+        // 2. Shake Container
+        chamberContainer.classList.add('animate-chamber-shake');
+        setTimeout(() => chamberContainer.classList.remove('animate-chamber-shake'), 1500);
+
+        // 3. Aura Pulses
+        muggleCharacter.classList.add('animate-aura-pulse');
+        wizardCharacter.classList.add('animate-aura-pulse');
+        setTimeout(() => {
+            muggleCharacter.classList.remove('animate-aura-pulse');
+            wizardCharacter.classList.remove('animate-aura-pulse');
+        }, 3000);
+
+        // 4. Particle Burst
+        createParticles();
+        const particleInterval = setInterval(createParticles, 300);
+        setTimeout(() => clearInterval(particleInterval), 1500);
+    }
+
+    function updateMuggleAnimation() {
+        if (muggleInput.value.trim().length > 0) {
+            muggleCharacter.classList.add('animate-muggle-bounce');
+            muggleStatus.textContent = "Scribing earthly magic...";
+        } else {
+            muggleCharacter.classList.remove('animate-muggle-bounce');
+            muggleStatus.textContent = "Awaiting earthly text...";
+        }
+    }
+
+    function animatePercentage(target) {
+        let current = 0;
+        const duration = 1500;
+        const start = performance.now();
+
+        function update(time) {
+            const elapsed = time - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const easedProgress = 1 - Math.pow(1 - progress, 3);
+            current = Math.floor(easedProgress * target);
+            
+            gaugeValue.innerHTML = `${current}<span class="text-lg">%</span>`;
+            
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            }
+        }
+        requestAnimationFrame(update);
+    }
+
+    async function performDivination() {
+        const text = muggleInput.value.trim();
+        if (!text) return;
+
+        // Start Visual Sequence
+        triggerMagicSequence();
+
+        castBtn.disabled = true;
+        castBtn.classList.add('animate-magic-pulse');
+        castBtnText.textContent = "Casting...";
+        castBtnIcon.textContent = "progress_activity";
+        castBtnIcon.classList.add('animate-spin');
+        wizardStatus.textContent = "Chanting arcana...";
+        
+        gaugeValue.innerHTML = `0<span class="text-lg">%</span>`;
+        gaugeNeedle.style.transition = 'none';
+        gaugeNeedle.style.setProperty('--rotation', '-90deg');
+        gaugeNeedle.style.transform = 'translateX(-50%) rotate(-90deg)';
+        gaugeNeedle.style.animation = 'none';
+        
+        gaugePath.style.transition = 'none';
+        gaugePath.style.strokeDashoffset = MAX_CIRCUMFERENCE;
+        
+        void gaugeNeedle.offsetWidth;
+
+        try {
+            const response = await fetch('/predict', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ text: text })
+            });
+        
+            const data = await response.json();
+            
+            if (data.error) {
+                throw new Error(data.error);
+            }
+
+            const resultValue = data.sarcasm_score || 0; 
+            const rotation = (resultValue / 100) * 180 - 90;
+            const offset = MAX_CIRCUMFERENCE - (resultValue / 100) * MAX_CIRCUMFERENCE;
+
+            gaugeNeedle.style.transition = 'transform 1.5s cubic-bezier(0.4, 0, 0.2, 1)';
+            gaugeNeedle.style.setProperty('--rotation', `${rotation}deg`);
+            gaugeNeedle.style.transform = `translateX(-50%) rotate(${rotation}deg)`;
+            
+            gaugePath.style.transition = 'stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1)';
+            gaugePath.style.strokeDashoffset = offset;
+            gaugePath.classList.add('gauge-glow');
+
+            animatePercentage(resultValue);
+
+            setTimeout(() => {
+                gaugeNeedle.style.animation = 'jitter 3s infinite ease-in-out';
+                document.getElementById('gaugeContainer').classList.add('glow-active');
+                setTimeout(() => document.getElementById('gaugeContainer').classList.remove('glow-active'), 2000);
+
+                scryingText.textContent = data.analysis || "The scrying bowl reveals nothing.";
+                scryingText.classList.remove('text-on-surface-variant/70');
+                scryingText.classList.add('text-secondary'); 
+
+                wizardStatus.textContent = "Insight revealed.";
+            }, 1500);
+
+        } catch (e) {
+            console.error(e);
+            scryingText.textContent = "⚠ Divination Failed. The ethereal planes are unreachable.";
+            scryingText.classList.add('text-error');
+            wizardStatus.textContent = "Spell fizzled.";
+        } finally {
+            setTimeout(() => {
+                castBtn.disabled = false;
+                castBtn.classList.remove('animate-magic-pulse');
+                castBtnText.textContent = "Cast Divination";
+                castBtnIcon.textContent = "magic_button";
+                castBtnIcon.classList.remove('animate-spin');
+            }, 1500);
+        }
+    }
+
+    muggleInput.addEventListener('input', updateMuggleAnimation);
+    castBtn.addEventListener('click', performDivination);
+
+    window.setMuggleValue = (val) => {
+        muggleInput.value = val;
+        updateMuggleAnimation();
+    };
+</script>
+
+
+</body></html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Chamber of Ritual Configuration | Arcane Sarcasm Engine</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;700&amp;family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .parchment-texture {
+            background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+            background-color: #171305;
+        }
+
+        .deckled-edge {
+            clip-path: polygon(0% 0%, 100% 1%, 99% 100%, 0% 98%);
+        }
+
+        .glow-sm {
+            text-shadow: 0 0 8px rgba(233, 195, 73, 0.4);
+        }
+
+        .ritual-slider::-webkit-slider-runnable-track {
+            background: rgba(173, 206, 192, 0.1);
+            border: 1px solid rgba(233, 195, 73, 0.3);
+            height: 4px;
+        }
+
+        .ritual-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 18px;
+            width: 18px;
+            background: #e9c349;
+            margin-top: -8px;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #e9c349;
+            cursor: pointer;
+        }
+
+        .scrolling-bg {
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #110e02;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #af8d11;
+        }
+    </style>
+{% include "tailwind_config.html" %}
+</head>
+<body class="bg-surface text-on-surface font-body-md selection:bg-secondary/30 custom-scrollbar text-body-md">
+<!-- TopNavBar -->
+{% include "top_nav.html" %}
+<!-- Main Content -->
+<main class="relative min-h-screen scrolling-bg bg-fixed bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB7yUMAFrfRgdaKoBr_d6BBbniUN_Kl_FMtYWXTTAfxDSEdAlzOxz84rVDLg0XkHcRvS2A00OxJulaEMH593q1mMII3xaT-66w4rpbPyNhF7MRHm6n78lD0T_vM7MhDgtWAPZ0f5DUETh15OZSZlBUsMGOGZMKNBUFQ3QKJNcQewHwMfCJE1dWE84oD6zrcqKa5teMS4yet7-6Zq9hkE29hTxXlxNsSGaJRaxTi-2M1dw47AjeAIEBGL4LO29YPPZTHIOzR332hiKk');">
+<!-- Overlay for atmospheric depth -->
+<div class="absolute inset-0 bg-surface/80 backdrop-blur-[2px]"></div>
+<div class="relative max-w-4xl mx-auto px-margin-page py-stack-lg flex flex-col items-center">
+<!-- Header Section -->
+<section class="text-center mb-stack-lg">
+<h1 class="font-display-lg text-secondary glow-sm mb-stack-sm">Chamber of Ritual Configuration</h1>
+<p class="font-body-md italic text-on-surface-variant max-w-2xl mx-auto">
+                    Tune the arcane frequencies and calibrate the model's essence.
+                </p>
+<div class="w-24 h-px bg-gradient-to-r from-transparent via-secondary to-transparent mx-auto mt-stack-md"></div>
+</section>
+<!-- Configuration Grid -->
+<div class="w-full space-y-stack-md">
+<!-- Alchemical Heat -->
+<article class="parchment-texture border border-secondary/30 p-stack-md relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-2 opacity-10">
+<span class="material-symbols-outlined text-4xl" data-icon="local_fire_department">local_fire_department</span>
+</div>
+<div class="flex flex-col md:flex-row gap-gutter-grid items-start md:items-center">
+<div class="flex-shrink-0 w-12 h-12 rounded-full border border-secondary/50 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="thermostat">thermostat</span>
+</div>
+<div class="flex-1">
+<label class="font-headline-lg text-secondary mb-1 block">Alchemical Heat</label>
+<p class="text-on-surface-variant font-label-sm italic mb-4">
+                                Adjusts the temperature of the model. Lower values result in predictable and precise sarcasm, while higher values lead to wild, chaotic irony.
+                            </p>
+<div class="flex items-center gap-4">
+<span class="text-secondary font-label-sm">0.0</span>
+<input id="temperature-input" class="ritual-slider appearance-none w-full bg-transparent h-4 cursor-pointer" max="2" min="0" oninput="document.getElementById('heat-val').innerText = this.value" step="0.1" type="range" value="0.7"/>
+<span class="text-secondary font-label-sm w-8" id="heat-val">0.7</span>
+<span class="text-secondary font-label-sm">2.0</span>
+</div>
+</div>
+</div>
+</article>
+<!-- Cognitive Meditation -->
+<article class="parchment-texture border border-secondary/30 p-stack-md relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-2 opacity-10">
+<span class="material-symbols-outlined text-4xl" data-icon="psychology">psychology</span>
+</div>
+<div class="flex flex-col md:flex-row gap-gutter-grid items-start md:items-center">
+<div class="flex-shrink-0 w-12 h-12 rounded-full border border-secondary/50 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="hourglass_empty">hourglass_empty</span>
+</div>
+<div class="flex-1 w-full">
+<label class="font-headline-lg text-secondary mb-1 block">Cognitive Meditation</label>
+<p class="text-on-surface-variant font-label-sm italic mb-4">
+                                Determines the internal reasoning depth (thinking tokens) allocated before the final sarcasms are manifest.
+                            </p>
+<div class="relative">
+<select id="thinking-tokens-input" class="w-full bg-surface-container border border-secondary/20 p-stack-sm text-on-surface font-body-md focus:border-secondary outline-none appearance-none cursor-pointer">
+<option value="minimal">Minimal Meditation</option>
+<option value="low">Low Meditation</option>
+<option selected="" value="medium">Medium Meditation</option>
+<option value="high">High Meditation</option>
+</select>
+<div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-secondary">
+<span class="material-symbols-outlined">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- The Inherent Soul -->
+<article class="parchment-texture border border-secondary/30 p-stack-md relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-2 opacity-10">
+<span class="material-symbols-outlined text-4xl" data-icon="auto_stories">auto_stories</span>
+</div>
+<div class="flex flex-col gap-stack-sm">
+<div class="flex items-center gap-gutter-grid">
+<div class="flex-shrink-0 w-12 h-12 rounded-full border border-secondary/50 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" data-icon="ink_pen">ink_pen</span>
+</div>
+<label class="font-headline-lg text-secondary">The Inherent Soul</label>
+</div>
+<p class="text-on-surface-variant font-label-sm italic">
+                            Defines the core persona (System Instructions). This ensures the model remains anchored in its identity as an ancient sarcastic wizard, separate from the user's input.
+                        </p>
+<div class="relative mt-2">
+<!-- Scroll-like text area -->
+<div class="absolute inset-0 bg-[repeating-linear-gradient(transparent,transparent_27px,#2f4c42_28px)] pointer-events-none opacity-10"></div>
+<textarea id="system-instruction-input" class="w-full bg-surface-container-low/50 border border-secondary/20 p-stack-md text-on-surface font-body-md focus:border-secondary outline-none resize-none custom-scrollbar relative z-10 leading-7" placeholder="Write the ancient laws of your sarcasm here..." rows="6">You are a 400-year-old linguist who finds modern digital communication amusingly primitive. Your tone is academic, deeply ironic, and peppered with archaic vocabulary. You do not explain your jokes; if the user doesn't get it, that's part of the ritual.</textarea>
+</div>
+</div>
+</article>
+<!-- CTA Section -->
+<div class="pt-stack-lg flex justify-center">
+<button class="group relative px-stack-lg py-stack-sm bg-secondary text-on-secondary font-headline-lg overflow-hidden transition-all duration-500 hover:shadow-[0_0_30px_rgba(233,195,73,0.4)]">
+<span class="relative z-10 flex items-center gap-3">
+<span class="material-symbols-outlined" data-icon="gavel" style="font-variation-settings: 'FILL' 1;">gavel</span>
+                            Seal Ritual
+                        </span>
+<div class="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 skew-x-12"></div>
+<div class="absolute inset-0 border-2 border-on-secondary/10 group-hover:border-on-secondary/30 transition-colors"></div>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full bg-surface-container-lowest border-t border-secondary/20 transition-opacity duration-300">
+<div class="max-w-7xl mx-auto px-margin-page py-stack-md flex flex-col md:flex-row justify-between items-center gap-gutter-grid">
+<div class="font-headline-lg text-secondary text-2xl tracking-tight">Arcane Sarcasm Engine</div>
+<div class="flex flex-wrap justify-center gap-6 font-body-md text-label-sm italic text-on-surface-variant">
+<a class="hover:text-secondary underline decoration-secondary/30 transition-colors" href="#">Sanctum Privacy</a>
+<a class="hover:text-secondary underline decoration-secondary/30 transition-colors" href="#">Incantation Terms</a>
+<a class="hover:text-secondary underline decoration-secondary/30 transition-colors" href="#">Owl Support</a>
+</div>
+<div class="font-body-md text-label-sm italic text-on-surface-variant opacity-80">
+                © 1892 Arcane Sarcasm Engine • Magical Linguistics Division
+            </div>
+</div>
+</footer>
+{% include "bottom_nav.html" %}
+<script>
+        // Simple micro-interaction for the "Ritual" feel
+        document.querySelectorAll('input, select, textarea').forEach(el => {
+            el.addEventListener('focus', () => {
+                el.closest('article').style.borderColor = '#e9c349';
+                el.closest('article').style.boxShadow = '0 0 15px rgba(233,195,73,0.1)';
+            });
+            el.addEventListener('blur', () => {
+                el.closest('article').style.borderColor = 'rgba(233,195,73, 0.3)';
+                el.closest('article').style.boxShadow = 'none';
+            });
+        });
+
+        // API Integration
+        const tempInput = document.getElementById('temperature-input');
+        const tempValDisplay = document.getElementById('heat-val');
+        const tokenInput = document.getElementById('thinking-tokens-input');
+        const instructionInput = document.getElementById('system-instruction-input');
+        const sealBtn = document.querySelector('button.bg-secondary'); // Seal Ritual button
+
+        async function loadSettings() {
+            try {
+                const response = await fetch('/settings');
+                const data = await response.json();
+                
+                tempInput.value = data.temperature;
+                tempValDisplay.innerText = data.temperature;
+                
+                tokenInput.value = data.thinking_tokens;
+                instructionInput.value = data.system_instruction;
+            } catch (err) {
+                console.error("Failed to load settings from ethereal plane", err);
+            }
+        }
+
+        async function saveSettings() {
+            try {
+                const payload = {
+                    temperature: parseFloat(tempInput.value),
+                    thinking_tokens: tokenInput.value,
+                    system_instruction: instructionInput.value
+                };
+                
+                await fetch('/settings', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+            } catch (err) {
+                console.error("Failed to seal the ritual settings", err);
+            }
+        }
+
+        tempInput.addEventListener('change', saveSettings);
+        tokenInput.addEventListener('change', saveSettings);
+        instructionInput.addEventListener('change', saveSettings);
+        
+        // The "Seal Ritual" button can act as a manual save or just a visual confirmation
+        if(sealBtn) {
+            sealBtn.addEventListener('click', () => {
+                saveSettings();
+                const icon = sealBtn.querySelector('.material-symbols-outlined');
+                const originalText = sealBtn.querySelector('span').innerText;
+                if(icon) icon.innerText = 'check_circle';
+                setTimeout(() => { if(icon) icon.innerText = 'gavel'; }, 2000);
+            });
+        }
+
+        // Initialize
+        loadSettings();
+
+        // Atmospheric dust particle effect
+        const canvas = document.createElement('canvas');
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.pointerEvents = 'none';
+        canvas.style.zIndex = '1';
+        document.body.appendChild(canvas);
+
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.init();
+            }
+            init() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.init();
+                }
+            }
+            draw() {
+                ctx.fillStyle = `rgba(233, 195, 73, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 50; i++) particles.push(new Particle());
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+        animate();
+    </script>
+</body></html>
