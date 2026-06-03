@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Library of Past Incantations | Sarcasm Scribe</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&amp;family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+{% include "tailwind_config.html" %}
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { background-color: #171305; color: #ebe2c8; overflow-x: hidden; }
+        .parchment-glass { background: rgba(23, 19, 5, 0.75); backdrop-filter: blur(12px); border: 1px solid rgba(233, 195, 73, 0.2); position: relative; }
+        .parchment-glass::after { content: ""; position: absolute; inset: 0; background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png"); opacity: 0.05; pointer-events: none; }
+        .gold-border-glow { box-shadow: 0 0 15px rgba(233, 195, 73, 0.1); }
+        .verdict-red { color: #ffb4ab; text-shadow: 0 0 8px rgba(255, 180, 171, 0.4); }
+        .verdict-green { color: #adcec0; text-shadow: 0 0 8px rgba(173, 206, 192, 0.4); }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(233, 195, 73, 0.3); border-radius: 10px; }
+        .castle-bg { background-image: linear-gradient(to bottom, rgba(23, 19, 5, 0.4), rgba(23, 19, 5, 0.95)), url('https://lh3.googleusercontent.com/aida-public/AB6AXuC8TxDKaZWcHJHnTZ-1w_iiNmcmUF5GWTAf7rsBhrDtnC_ZMboJ4aCmYyBoj1vs9OfA9xV_Q4rtBrLq92aXNVN_i5LWQoA7mSuWie8P_NCjbXAXfhVlxswk53UX4yr9iNcAuDXkX7XyBmO2nkZzgkI2afiMKOgxBIBp0zjZO6fR5g3IXA82dIp1zZGTuzjzxzD6woyFjLiIU98p4MTUVuNVndxCJ0Yf5IiqUNppPkcrRJSkkJW5-AMqWXHvWygyVKlNDxrX38JVr3o'); background-size: cover; background-position: center; background-attachment: fixed; }
+</style>
+</head>
+<body class="font-body-md text-body-md selection:bg-secondary selection:text-surface">
+{% include "top_nav.html" %}
+<main class="castle-bg min-h-screen pt-32 pb-20 px-margin-page">
+<div class="max-w-7xl mx-auto space-y-stack-lg">
+<header class="flex flex-col md:flex-row md:items-end justify-between gap-stack-md">
+<div class="space-y-2">
+<span class="font-label-sm text-label-sm text-secondary tracking-[0.2em] uppercase">Historical Archive</span>
+<h1 class="font-display-lg text-display-lg text-on-background">Library of Past Incantations</h1>
+<p class="text-on-surface-variant max-w-2xl">A meticulous repository of linguistic distortions and sarcasm detections recovered from the earthly realm.</p>
+</div>
+<div class="w-full md:w-96 space-y-4">
+<div class="flex justify-end gap-2">
+    <button id="toggle-scope" class="text-label-sm font-label-sm uppercase tracking-widest px-4 py-2 border border-secondary text-secondary rounded hover:bg-secondary/20 transition-colors">Viewing: Personal</button>
+</div>
+<div class="group relative parchment-glass border-secondary/30 rounded-xl p-1 flex items-center">
+<span class="material-symbols-outlined absolute left-4 text-secondary">auto_stories</span>
+<input class="w-full bg-transparent border-none py-3 pl-12 pr-4 text-on-surface focus:ring-0 placeholder:text-outline/50 font-body-md" placeholder="Filter by Incantation..." type="text"/>
+</div>
+</div>
+</header>
+<!-- Wizard's Scholarly Standing Dashboard -->
+<section id="stats-dashboard" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter-grid">
+<!-- Incantation Mastery -->
+<div class="parchment-glass p-6 rounded-xl gold-border-glow border border-secondary/20 flex flex-col items-center text-center">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-[0.2em] mb-2">Incantation Mastery</span>
+<span id="stat-mastery" class="font-display-lg text-4xl text-secondary drop-shadow-[0_0_8px_rgba(233,195,73,0.3)]">0</span>
+<p class="text-xs text-outline mt-1 font-label-sm">Accumulated Power</p>
+</div>
+<!-- Scholarly Rank -->
+<div class="parchment-glass p-6 rounded-xl gold-border-glow border border-secondary/20 flex flex-col items-center text-center">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-[0.2em] mb-2">Scholarly Rank</span>
+<span id="stat-rank" class="font-headline-lg text-2xl text-on-surface uppercase">-</span>
+<p class="text-xs text-outline mt-1 font-label-sm">Current Standing</p>
+</div>
+<!-- Success Rate -->
+<div class="parchment-glass p-6 rounded-xl gold-border-glow border border-secondary/20 flex flex-col items-center text-center">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-[0.2em] mb-2">Sarcasm Rate</span>
+<span id="stat-success" class="font-display-lg text-4xl text-primary drop-shadow-[0_0_8px_rgba(173,206,192,0.3)]">0%</span>
+<p class="text-xs text-outline mt-1 font-label-sm">Detection Frequency</p>
+</div>
+<!-- Daily Streak -->
+<div class="parchment-glass p-6 rounded-xl gold-border-glow border border-secondary/20 flex flex-col items-center text-center">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-[0.2em] mb-2">Daily Streak</span>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-3xl text-secondary animate-pulse" style="font-variation-settings: 'FILL' 1">local_fire_department</span>
+<span id="stat-streak" class="font-display-lg text-4xl text-on-surface">1</span>
+</div>
+<p class="text-xs text-outline mt-1 font-label-sm">Consecutive Days</p>
+</div>
+</section>
+<section class="parchment-glass rounded-2xl overflow-hidden gold-border-glow border border-secondary/20">
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/50 border-b border-secondary/10">
+<th class="px-8 py-6 font-headline-lg text-sm text-secondary uppercase tracking-widest">Source Earthly Text</th>
+<th class="px-8 py-6 font-headline-lg text-sm text-secondary uppercase tracking-widest">Core Verdict</th>
+<th class="px-8 py-6 font-headline-lg text-sm text-secondary uppercase tracking-widest">Sarcasm Index</th>
+<th class="px-8 py-6 font-headline-lg text-sm text-secondary uppercase tracking-widest">Irony Index</th>
+<th class="px-8 py-6 font-headline-lg text-sm text-secondary uppercase tracking-widest">The Wizard's Retort</th>
+</tr>
+</thead>
+<tbody id="history-body" class="divide-y divide-secondary/5">
+</tbody>
+</table>
+</div>
+<div class="px-8 py-4 bg-surface-container-lowest flex justify-between items-center border-t border-secondary/10">
+<span id="history-count" class="text-label-sm font-label-sm text-outline">Displaying 0 of 0 ancient records</span>
+</div>
+</section>
+</div>
+</main>
+{% include "bottom_nav.html" %}
+<script>
+        const searchInput = document.querySelector('input[placeholder="Filter by Incantation..."]');
+        const toggleBtn = document.getElementById('toggle-scope');
+        let rows = [];
+        let currentScope = 'personal';
+
+        toggleBtn.addEventListener('click', () => {
+            currentScope = currentScope === 'personal' ? 'all' : 'personal';
+            toggleBtn.innerText = `Viewing: ${currentScope.charAt(0).toUpperCase() + currentScope.slice(1)}`;
+            fetchHistory();
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                if (text.includes(term)) {
+                    row.style.display = '';
+                    row.style.opacity = '1';
+                } else {
+                    row.style.opacity = '0';
+                    setTimeout(() => { if(row.style.opacity === '0') row.style.display = 'none'; }, 300);
+                }
+            });
+        });
+
+        async function fetchHistory() {
+            try {
+                const response = await fetch('/history?scope=' + currentScope);
+                const data = await response.json();
+                
+                const tbody = document.getElementById('history-body');
+                const countDisplay = document.getElementById('history-count');
+                const statsDash = document.getElementById('stats-dashboard');
+                
+                tbody.innerHTML = '';
+                
+                if (data.history.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" class="px-8 py-6 text-center text-outline italic">The archive is empty. Await a divination...</td></tr>';
+                    countDisplay.innerText = `Displaying 0 of 0 ancient records`;
+                } else {
+                    countDisplay.innerText = `Displaying ${data.history.length} of ${data.history.length} ancient records`;
+                    data.history.forEach(item => {
+                        const isSarcastic = item.verdict.toUpperCase() === 'SARCASTIC';
+                        const verdictColorClass = isSarcastic ? 'verdict-red' : 'verdict-green';
+                        const bgPulseClass = isSarcastic ? 'bg-error animate-pulse shadow-[0_0_8px_#ffb4ab]' : 'bg-primary shadow-[0_0_8px_#adcec0]';
+                        
+                        const row = document.createElement('tr');
+                        row.className = 'hover:bg-secondary/5 transition-colors group';
+                        row.innerHTML = `
+                            <td class="px-8 py-6 align-top">
+                                <div class="relative pl-4 border-l-2 border-secondary/20">
+                                    <p class="font-display-lg text-xl italic text-on-surface leading-snug">"${item.text}"</p>
+                                    <span class="text-xs text-outline mt-2 block font-label-sm">RECOVERED: ${item.timestamp} ${currentScope === 'all' ? 'BY ' + item.username : ''}</span>
+                                </div>
+                            </td>
+                            <td class="px-8 py-6 align-top">
+                                <div class="flex items-center gap-2 font-bold tracking-widest ${verdictColorClass}">
+                                    <span class="w-2 h-2 rounded-full ${bgPulseClass}"></span>
+                                    ${item.verdict.toUpperCase()}
+                                </div>
+                            </td>
+                            <td class="px-8 py-6 align-top font-headline-lg text-2xl text-on-surface">${item.sarcasm_score}%</td>
+                            <td class="px-8 py-6 align-top font-headline-lg text-2xl text-on-surface">${item.irony_score}%</td>
+                            <td class="px-8 py-6 align-top">
+                                <p class="text-on-surface-variant font-body-md italic opacity-90 group-hover:opacity-100 transition-opacity">
+                                    "${item.analysis}"
+                                </p>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                }
+                
+                rows = document.querySelectorAll('tbody tr');
+                
+                // Update stats if personal
+                if (data.stats) {
+                    statsDash.style.display = 'grid';
+                    document.getElementById('stat-mastery').innerText = data.stats.mastery;
+                    document.getElementById('stat-rank').innerText = data.stats.rank;
+                    document.getElementById('stat-success').innerText = data.stats.success_rate + '%';
+                    document.getElementById('stat-streak').innerText = data.stats.daily_streak;
+                } else {
+                    statsDash.style.display = 'none'; // Hide stats for global view
+                }
+            } catch (err) { console.error("Failed to fetch history:", err); }
+        }
+        
+        fetchHistory();
+</script>
+</body></html>

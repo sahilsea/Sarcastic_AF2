@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login | Arcane Sarcasm Engine</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:wght@400;600;700&amp;family=EB+Garamond:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+{% include "tailwind_config.html" %}
+<style>
+        .parchment-texture {
+            background-image: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+            background-color: #f4ecd8;
+        }
+        .deckled-edge {
+            clip-path: polygon(0% 0%, 5% 2%, 10% 0%, 15% 3%, 20% 0%, 25% 2%, 30% 0%, 35% 3%, 40% 0%, 45% 2%, 50% 0%, 55% 3%, 60% 0%, 65% 2%, 70% 0%, 75% 3%, 80% 0%, 85% 2%, 90% 0%, 95% 3%, 100% 0%, 100% 100%, 95% 97%, 90% 100%, 85% 98%, 80% 100%, 75% 97%, 70% 100%, 65% 98%, 60% 100%, 55% 97%, 50% 100%, 45% 98%, 40% 100%, 35% 97%, 30% 100%, 25% 98%, 20% 100%, 15% 97%, 10% 100%, 5% 98%, 0% 100%);
+        }
+        .magical-glow {
+            box-shadow: 0 0 15px rgba(233, 195, 73, 0.4), inset 0 0 10px rgba(233, 195, 73, 0.2);
+        }
+        .scrying-mirror {
+            backdrop-filter: blur(12px);
+            background: rgba(17, 14, 2, 0.7);
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .btn-shimmer {
+            background: linear-gradient(90deg, rgba(233, 195, 73, 1) 0%, rgba(255, 224, 136, 1) 50%, rgba(233, 195, 73, 1) 100%);
+            background-size: 200% 100%;
+        }
+        .btn-shimmer:hover {
+            animation: shimmer 1.5s infinite;
+        }
+        .quill-cursor {
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%23e9c349' d='M21 2c-3.5 0-6.5 1.5-8.5 4.5l-8.5 8.5L2 22l7-2 8.5-8.5C20.5 9.5 22 6.5 22 3c0-.6-.4-1-1-1zm-6 10l-6 6-1.5-1.5 6-6 1.5 1.5z'/%3E%3C/svg%3E"), auto;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col font-body-md overflow-x-hidden quill-cursor">
+<!-- Background Image Overlay -->
+<div class="fixed inset-0 z-[-1] overflow-hidden">
+<img alt="Background" class="w-full h-full object-cover opacity-60 scale-105 blur-[2px]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3ajWP5cA2rdF7NXgq_-7Dmx5_f9UKbdrMHda2y3FG05EVUNJbyGGiYBKZ0-mYazM-L85AV3lwFem8XsRe1jBYi5wMftHi915x3iuKeiq3haWUCX0LbL7KoV-gO-3kTOq9V90UdA16UfA3MG8-6nsemnIC7gErotmB9qMoM52wK5tAzPIWpFV4dEr5F1Yg6_4Sk9tRPFiAycsFL8flX2vcfm5zgeymHLNIW1kA7S5gApRUUvwMNet63433G5U_7i-I8H_3ZGS_Whc"/>
+<div class="absolute inset-0 bg-gradient-to-b from-surface/20 via-surface/60 to-surface"></div>
+</div>
+<!-- TopNavBar (Simplified for Login) -->
+<nav class="w-full top-0 sticky border-b border-secondary/20 bg-surface/90 backdrop-blur-md shadow-[0_4px_20px_rgba(233,195,73,0.1)] transition-all duration-300 ease-in-out flex justify-between items-center px-margin-page py-stack-sm max-w-7xl mx-auto z-50">
+<div class="font-headline-lg-mobile text-headline-lg-mobile text-secondary dark:text-secondary-fixed-dim">
+            Arcane Sarcasm Engine
+        </div>
+<div class="hidden md:flex gap-gutter-grid">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant italic">Magical Linguistics Division</span>
+</div>
+<div class="flex items-center gap-stack-sm">
+<span class="material-symbols-outlined text-secondary">account_circle</span>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col items-center justify-center p-margin-page relative">
+<!-- Login Card (The Floating Scroll) -->
+<div class="w-full max-w-md relative animate-fade-in">
+<!-- Decorative Ink Bottle/Feather -->
+<div class="absolute -top-16 -right-10 hidden md:block opacity-80">
+<span class="material-symbols-outlined text-[64px] text-secondary/40" style="font-variation-settings: 'FILL' 1;">ink_pen</span>
+</div>
+<div class="absolute -bottom-12 -left-12 hidden md:block opacity-80 rotate-12">
+<span class="material-symbols-outlined text-[80px] text-secondary/30" style="font-variation-settings: 'FILL' 0;">history_edu</span>
+</div>
+<div class="parchment-texture text-on-secondary-container p-stack-lg deckled-edge shadow-2xl relative border-2 border-secondary/30">
+<div class="text-center mb-stack-md">
+<span class="material-symbols-outlined text-secondary text-[48px] mb-2" style="font-variation-settings: 'FILL' 1;">auto_fix_high</span>
+<h1 class="font-headline-lg text-headline-lg text-on-secondary-container mb-1">Enter the Sanctum</h1>
+<p class="font-label-sm text-label-sm italic opacity-70">Prove your magical identity</p>
+{% if error %}
+<p class="text-error font-bold mt-2 font-label-sm text-label-sm uppercase tracking-widest">{{ error }}</p>
+{% endif %}
+</div>
+<form action="/login" method="POST" class="space-y-stack-md">
+<div class="space-y-2">
+<label class="font-label-sm text-label-sm block uppercase tracking-widest text-on-secondary-container/80 ml-1">Wizarding Name</label>
+<div class="relative">
+<input name="username" required class="w-full bg-white/40 border-b-2 border-secondary/50 p-stack-sm focus:outline-none focus:border-secondary transition-all magical-glow font-body-md text-on-secondary placeholder-on-secondary-container/50" placeholder="e.g. Albus_D1881" type="text"/>
+<span class="absolute right-3 top-3 material-symbols-outlined text-secondary/60">person</span>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-label-sm text-label-sm block uppercase tracking-widest text-on-secondary-container/80 ml-1">Secret Incantation</label>
+<div class="relative">
+<input name="password" required class="w-full bg-white/40 border-b-2 border-secondary/50 p-stack-sm focus:outline-none focus:border-secondary transition-all magical-glow font-body-md placeholder-on-secondary-container/50" placeholder="••••••••" type="password"/>
+<span class="absolute right-3 top-3 material-symbols-outlined text-secondary/60">lock</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-label-sm pt-2">
+<label class="flex items-center gap-2 cursor-pointer">
+<input class="rounded-none border-secondary/50 text-secondary focus:ring-secondary bg-transparent" type="checkbox"/>
+<span>Stay Enchanted</span>
+</label>
+<a class="text-secondary hover:underline transition-all italic" href="#">Lost your Owl?</a>
+</div>
+<button class="w-full btn-shimmer text-on-secondary py-stack-sm font-headline-lg-mobile text-headline-lg-mobile shadow-lg border border-white/20 relative group overflow-hidden mt-stack-md" type="submit">
+<span class="relative z-10">Seal &amp; Enter</span>
+<div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-white/20 blur-xl"></div>
+</button>
+</form>
+<!-- Quick Switch Section -->
+<div class="mt-stack-lg border-t border-on-secondary-container/10 pt-stack-md">
+<p class="text-center font-label-sm text-label-sm uppercase tracking-widest text-on-secondary-container/60 mb-stack-sm">Switch Student</p>
+<div class="flex justify-center gap-gutter-grid">
+<form action="/login" method="POST" class="inline">
+<input type="hidden" name="username" value="Harry P.">
+<button class="group flex flex-col items-center gap-1 transition-transform hover:scale-110" type="submit">
+<div class="w-14 h-14 rounded-full border-2 border-secondary p-0.5 overflow-hidden shadow-md">
+<img alt="Harry" class="w-full h-full object-cover rounded-full grayscale group-hover:grayscale-0 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtQTCJj6TnOTwPWDzBLq9Uv8A7xUrMi5ylswi7BJfYu4SDXBaklWWhAZKYVrBbF3OxEur0jWMJyKUjKoWMJdxC1-6o-LHZX-4Sp9kR--UM8noYZZmLcDGbOdkrtOP7oG0-lLo96iStgS-wsmqeLJnuqmj_1fRXx0W_IN7BF_9XZ-mir7rL0gR9yFNbQWt7jcUa9TzAfMH4li_sSDRyBA_1vZHAMRt0FdbaBErfa35y1-r20XaFxLwSvCM5lYAHQ_9Vavz4Q9bop08"/>
+</div>
+<span class="font-label-sm text-[10px] opacity-70 group-hover:opacity-100">Harry P.</span>
+</button>
+</form>
+<form action="/login" method="POST" class="inline">
+<input type="hidden" name="username" value="Hermione Granger">
+<button class="group flex flex-col items-center gap-1 transition-transform hover:scale-110" type="submit">
+<div class="w-14 h-14 rounded-full border-2 border-secondary/30 p-0.5 overflow-hidden shadow-md bg-secondary/10 flex items-center justify-center">
+<img alt="Hermione" class="w-full h-full object-cover rounded-full grayscale group-hover:grayscale-0 transition-all" data-alt="A detailed digital illustration of a young witch with bushy brown hair and an intelligent expression, wearing a scarlet and gold striped scarf. The style is soft-focus, painterly, with magical gold motes floating around her in a scholarly dark-academy setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7GtJaIVYA3oh5ZnvUFTZRSDeCCvCGqOge9yQVzC5FT6GEQ5HL_tb6ZEFZRvpnYV-XotAnNQZdrSGDIBao3WGWq-W7uvry52ubkm8ljgMJ6tRdcEJrg_uMnR0yLXFCXMKsfas9IkC-0LkCUOfUsMY0Iuo3IwnTsdU89Liz9ALTs9mgWe_0yJwIRDWKbqeeA04Iyfv3a9tRsjGvZFusyx4g2-8MwzQW4cLGKZHWzGAV5sx0C7rWVgf_a7WxHXj-0blp8bfW4GJNIM8"/>
+</div>
+<span class="font-label-sm text-[10px] opacity-70 group-hover:opacity-100">Granger</span>
+</button>
+</form>
+<form action="/login" method="POST" class="inline">
+<input type="hidden" name="username" value="Ron Weasley">
+<button class="group flex flex-col items-center gap-1 transition-transform hover:scale-110" type="submit">
+<div class="w-14 h-14 rounded-full border-2 border-secondary/30 p-0.5 overflow-hidden shadow-md bg-secondary/10 flex items-center justify-center">
+<img alt="Ron" class="w-full h-full object-cover rounded-full grayscale group-hover:grayscale-0 transition-all" data-alt="A charming digital character portrait of a red-haired boy with freckles wearing a slightly worn school robe. He has a cheerful, mischievous grin. The background is a dark, atmospheric common room with warm orange candlelight and deep green shadows, matching a mystical scholarly aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmf63HpDfROXr90WrMsqRAda-fujaht-VT8Dn5XD2KpbQFvbze7z3VMRBcdnUuINN9kE1r60ZRifZR_5yR8qLyHpmMuzZm78antogrN_sHHUlKSsxpHAC84j90yFly66xAqpPGnXTLkXx9p2eLvSnE9KZjezr9vXEJOZs9KC4qNA4sIS4ktPWN8EDZuJ_J5elYn7jYTpzKbpOi6hBVdmgbWEcgozTHdzaT9VmPfqzTpQH0iy7NjghovCLvRP-s_0tovAo82GkoviE"/>
+</div>
+<span class="font-label-sm text-[10px] opacity-70 group-hover:opacity-100">Weasley</span>
+</button>
+</form>
+<button class="group flex flex-col items-center gap-1 transition-transform hover:scale-110">
+<div class="w-14 h-14 rounded-full border-2 border-dashed border-secondary/40 p-0.5 flex items-center justify-center bg-white/20">
+<span class="material-symbols-outlined text-secondary">add</span>
+</div>
+<span class="font-label-sm text-[10px] opacity-70 group-hover:opacity-100">Other</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Footer-like Info (Floating under card) -->
+<div class="mt-stack-md text-center">
+<p class="font-body-md text-on-surface-variant italic opacity-80">
+                    "Sarcasm is the lowest form of wit, but the highest form of enchantment."
+                </p>
+</div>
+</div>
+</main>
+<!-- Global Footer -->
+<footer class="w-full mt-stack-lg border-t border-secondary/20 bg-surface-container-lowest dark:bg-surface-container-lowest opacity-80 hover:opacity-100 transition-opacity flex flex-col md:flex-row justify-between items-center px-margin-page py-stack-md">
+<div class="font-headline-lg text-secondary mb-4 md:mb-0">
+            Arcane
+        </div>
+<div class="font-body-md text-label-sm italic text-on-surface-variant">
+            © 1892 Arcane Sarcasm Engine • Magical Linguistics Division
+        </div>
+<div class="flex gap-stack-md mt-4 md:mt-0">
+<a class="text-on-surface-variant hover:text-secondary underline decoration-secondary/30 font-label-sm text-label-sm italic" href="#">Sanctum Privacy</a>
+<a class="text-on-surface-variant hover:text-secondary underline decoration-secondary/30 font-label-sm text-label-sm italic" href="#">Incantation Terms</a>
+<a class="text-on-surface-variant hover:text-secondary underline decoration-secondary/30 font-label-sm text-label-sm italic" href="#">Owl Support</a>
+</div>
+</footer>
+<script>
+        // Micro-interactions for magical atmosphere
+        document.addEventListener('mousemove', (e) => {
+            const sparkles = document.createElement('div');
+            sparkles.className = 'fixed pointer-events-none w-1 h-1 bg-secondary rounded-full opacity-0';
+            sparkles.style.left = e.clientX + 'px';
+            sparkles.style.top = e.clientY + 'px';
+            document.body.appendChild(sparkles);
+            
+            const animation = sparkles.animate([
+                { opacity: 0.8, transform: 'scale(1) translate(0, 0)' },
+                { opacity: 0, transform: `scale(0) translate(${(Math.random() - 0.5) * 40}px, ${(Math.random() - 0.5) * 40}px)` }
+            ], {
+                duration: 800,
+                easing: 'ease-out'
+            });
+            
+            animation.onfinish = () => sparkles.remove();
+        });
+    </script>
+</body></html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Grimoire of Ancient Sarcasm | Arcane Sarcasm Engine</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Use Tailwind Config from Brand Anchors -->
+{% include "tailwind_config.html" %}
+<style>
+        body {
+            background-image: linear-gradient(rgba(23, 19, 5, 0.85), rgba(23, 19, 5, 0.95)), url('https://lh3.googleusercontent.com/aida-public/AB6AXuB9osPri73PN6LhlYqD9pBWEvemKMntxLZRR9HGO4nmXTJNUFxQ_NWhL3jqcKMpkPy3ih2BM-KG79pkWtUHBtWotTm4vwWZKusMBbNN0e3F0STiUQ6beKiLx_s-tsJv5oKLjnLvXpDSkcECmxZufocfhVRIDcRsS1RBCqHy1DNpvd3naRQqMmTSEmGS1GpZtWMUTRfV6pqdhe7VGzfuYr7S7HiyxgoEjIOGmTZMYT4UsHpNSuOi8OJBlIfhQjzBG7xvVZZgUJcecpo');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+
+        .parchment-texture {
+            background-image: url("https://www.transparenttextures.com/patterns/p6.png");
+            background-color: #f3ecd8;
+            color: #23200f;
+            position: relative;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.1), 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .dark .parchment-texture {
+            background-color: #23200f;
+            background-image: url("https://www.transparenttextures.com/patterns/dark-matter.png");
+            color: #ebe2c8;
+            border: 1px solid rgba(233, 195, 73, 0.2);
+        }
+
+        .deckled-edge {
+            clip-path: polygon(0% 0%, 5% 1%, 10% 0%, 15% 2%, 20% 0%, 25% 1%, 30% 0%, 35% 2%, 40% 0%, 45% 1%, 50% 0%, 55% 2%, 60% 0%, 65% 1%, 70% 0%, 75% 2%, 80% 0%, 85% 1%, 90% 0%, 95% 2%, 100% 0%, 100% 100%, 95% 98%, 90% 100%, 85% 98%, 80% 100%, 75% 98%, 70% 100%, 65% 98%, 60% 100%, 55% 98%, 50% 100%, 45% 98%, 40% 100%, 35% 98%, 30% 100%, 25% 98%, 20% 100%, 15% 98%, 10% 100%, 5% 98%, 0% 100%);
+        }
+
+        .scribe-quill {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="gold"><path d="M7.127 22.562l-7.127 1.438 1.438-7.128 5.689 5.69zm1.414-1.414l11.228-11.225-5.69-5.692-11.227 11.227 5.689 5.69zm9.768-21.148c-.781-.781-2.047-.781-2.828 0l-1.251 1.251 5.691 5.691 1.251-1.251c.781-.781.781-2.047 0-2.828l-2.863-2.863z"/></svg>'), auto;
+        }
+
+        .mystical-glow {
+            box-shadow: 0 0 15px rgba(233, 195, 73, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .mystical-glow:hover {
+            box-shadow: 0 0 25px rgba(233, 195, 73, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .glass-mirror {
+            background: rgba(17, 14, 2, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(233, 195, 73, 0.1);
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        .shimmer-text {
+            background: linear-gradient(90deg, #e9c349 0%, #ffe088 50%, #e9c349 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 5s linear infinite;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md text-on-surface selection:bg-secondary selection:text-on-secondary scribe-quill">
+<!-- TopNavBar -->
+{% include "top_nav.html" %}
+<main class="pt-32 pb-stack-lg max-w-7xl mx-auto px-margin-page">
+<!-- Hero Section -->
+<section class="mb-stack-lg text-center">
+<h1 class="font-display-lg text-display-lg shimmer-text mb-4">The Grimoire of Ancient Sarcasm</h1>
+<p class="max-w-2xl mx-auto text-on-surface-variant italic">
+                "Behold the sacred records of the sharpest tongues in history. Tread carefully, for these pages are laced with the most potent linguistic poisons."
+            </p>
+</section>
+<!-- Hall of Fame Sarcastic Quotes: Scroll Bento Grid -->
+<section class="mb-stack-lg">
+<div class="flex items-center gap-4 mb-stack-md">
+<span class="material-symbols-outlined text-secondary text-3xl">menu_book</span>
+<h2 class="font-headline-lg text-headline-lg text-secondary">Hall of Fame</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter-grid">
+<!-- Oscar Wilde -->
+<div class="md:col-span-8 parchment-texture deckled-edge p-stack-md flex flex-col justify-center min-h-[300px]">
+<span class="material-symbols-outlined text-on-surface-variant mb-2">format_quote</span>
+<blockquote class="font-headline-lg text-headline-lg italic leading-relaxed mb-6">
+                        "Some cause happiness wherever they go; others whenever they go."
+                    </blockquote>
+<cite class="text-secondary font-label-sm text-label-sm uppercase tracking-widest">— Oscar Wilde</cite>
+</div>
+<!-- Modern Culture -->
+<div class="md:col-span-4 glass-mirror p-stack-md rounded-xl flex flex-col items-center text-center border-secondary/30 relative overflow-hidden">
+<div class="absolute -top-4 -right-4 opacity-10">
+<span class="material-symbols-outlined text-[120px]">psychology</span>
+</div>
+<span class="bg-secondary/20 text-secondary px-3 py-1 font-label-sm text-label-sm rounded-full mb-4">Modern Lore</span>
+<p class="font-headline-lg-mobile text-headline-lg-mobile mb-4">"Oh, brilliant, another meeting."</p>
+<p class="text-on-surface-variant italic text-sm">The Office (Circa 2005)</p>
+</div>
+<!-- Mark Twain Style -->
+<div class="md:col-span-4 parchment-texture deckled-edge p-stack-md">
+<span class="material-symbols-outlined text-on-surface-variant mb-2">ink_pen</span>
+<p class="font-body-md text-body-md italic mb-4">"I'm not arguing, I'm just explaining why I'm right."</p>
+<div class="border-t border-secondary/20 pt-2 flex justify-between items-center">
+<span class="text-secondary text-xs uppercase tracking-tighter">Inscribed in Stone</span>
+<span class="material-symbols-outlined text-secondary text-sm">verified</span>
+</div>
+</div>
+<!-- Multi-tasking -->
+<div class="md:col-span-8 glass-mirror p-stack-md rounded-xl border-l-4 border-l-secondary flex items-center gap-stack-md">
+<div class="bg-secondary/10 p-6 rounded-full">
+<span class="material-symbols-outlined text-secondary text-4xl" data-weight="fill">bolt</span>
+</div>
+<div>
+<p class="font-headline-lg text-headline-lg mb-2 text-on-surface">"I'm multi-tasking: I can listen, ignore, and forget all at the same time."</p>
+<span class="text-on-surface-variant font-label-sm text-label-sm uppercase">Cynic's Proverb</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Classic Datasets Section -->
+<section>
+<div class="flex items-center gap-4 mb-stack-md">
+<span class="material-symbols-outlined text-secondary text-3xl">inventory_2</span>
+<h2 class="font-headline-lg text-headline-lg text-secondary">Classic Datasets</h2>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter-grid">
+<!-- Dataset 1 -->
+<div class="bg-surface-container-low border border-secondary/10 p-6 rounded-lg hover:border-secondary/40 transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-primary-container/30 rounded">
+<span class="material-symbols-outlined text-primary text-2xl">history_edu</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">1,242 Scrolls</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-secondary mb-2">The Irony Archives</h3>
+<p class="text-on-surface-variant text-sm mb-6">A collection of situational ironies and cosmic jokes harvested from Victorian literature and social blunders.</p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="bg-surface-container-high border border-secondary/10 px-2 py-1 text-[10px] rounded uppercase text-secondary">Satire</span>
+<span class="bg-surface-container-high border border-secondary/10 px-2 py-1 text-[10px] rounded uppercase text-secondary">Victorian</span>
+</div>
+<button class="w-full py-3 border border-secondary text-secondary font-label-sm text-label-sm rounded uppercase tracking-widest hover:bg-secondary hover:text-on-secondary transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">auto_fix</span>
+                        Inscribe
+                    </button>
+</div>
+<!-- Dataset 2 -->
+<div class="bg-surface-container-low border border-secondary/10 p-6 rounded-lg hover:border-secondary/40 transition-all group relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2">
+<span class="material-symbols-outlined text-error/40 text-sm">priority_high</span>
+</div>
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-on-tertiary-container/10 rounded">
+<span class="material-symbols-outlined text-tertiary text-2xl">skull</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">892 Scrolls</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-secondary mb-2">The Cynic's Collection</h3>
+<p class="text-on-surface-variant text-sm mb-6">A brutalist repository of dry wit and pessimistic observations for when you need a sharper edge.</p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="bg-surface-container-high border border-secondary/10 px-2 py-1 text-[10px] rounded uppercase text-secondary">Dark Humor</span>
+<span class="bg-surface-container-high border border-secondary/10 px-2 py-1 text-[10px] rounded uppercase text-secondary">Modern</span>
+</div>
+<button class="w-full py-3 border border-secondary text-secondary font-label-sm text-label-sm rounded uppercase tracking-widest hover:bg-secondary hover:text-on-secondary transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">auto_fix</span>
+                        Inscribe
+                    </button>
+</div>
+<!-- Dataset 3 -->
+<div class="bg-surface-container-low border border-secondary/10 p-6 rounded-lg hover:border-secondary/40 transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-secondary-container/20 rounded">
+<span class="material-symbols-outlined text-secondary text-2xl">theater_comedy</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">2,105 Scrolls</span>
+</div>
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-secondary mb-2">The Jester's Manifest</h3>
+<p class="text-on-surface-variant text-sm mb-6">High-energy, playful mockery and slapstick linguistic tricks for the light-hearted scribe.</p>
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="bg-surface-container-high border border-secondary/10 px-2 py-1 text-[10px] rounded uppercase text-secondary">Playful</span>
+<span class="bg-surface-container-high border border-secondary/10 px-2 py-1 text-[10px] rounded uppercase text-secondary">Classic</span>
+</div>
+<button class="w-full py-3 border border-secondary text-secondary font-label-sm text-label-sm rounded uppercase tracking-widest hover:bg-secondary hover:text-on-secondary transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">auto_fix</span>
+                        Inscribe
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-stack-lg px-margin-page flex flex-col md:flex-row justify-between items-center gap-gutter-grid border-t border-secondary/10 bg-surface-container-lowest">
+<div class="flex flex-col items-center md:items-start gap-2">
+<div class="font-headline-lg-mobile text-headline-lg-mobile text-secondary">Sarcasm Scribe</div>
+<div class="font-label-sm text-label-sm text-on-secondary-fixed-variant">© 1892 Ministry of Linguistic Enchantments</div>
+</div>
+<div class="flex gap-8">
+<a class="text-outline hover:text-secondary transition-colors font-label-sm text-label-sm" href="#">Secret Passages</a>
+<a class="text-outline hover:text-secondary transition-colors font-label-sm text-label-sm" href="#">Scroll Privacy</a>
+<a class="text-outline hover:text-secondary transition-colors font-label-sm text-label-sm" href="#">Owl Support</a>
+</div>
+<div class="flex gap-4">
+<button class="w-10 h-10 rounded-full border border-secondary/20 flex items-center justify-center hover:translate-y-[-2px] transition-transform text-secondary">
+<span class="material-symbols-outlined text-xl">auto_awesome</span>
+</button>
+<button class="w-10 h-10 rounded-full border border-secondary/20 flex items-center justify-center hover:translate-y-[-2px] transition-transform text-secondary">
+<span class="material-symbols-outlined text-xl">history</span>
+</button>
+</div>
+</footer>
+{% include "bottom_nav.html" %}
+<script>
+        // Simple micro-interaction for buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const originalText = btn.innerHTML;
+                if(btn.innerText.includes('Inscribe')) {
+                    btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">magic_button</span> Loading...';
+                    setTimeout(() => {
+                        btn.innerHTML = '<span class="material-symbols-outlined text-sm">check_circle</span> Inscribed';
+                        setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+                    }, 1500);
+                }
+            });
+        });
+
+        // Add subtle floating effect to parchment cards
+        document.querySelectorAll('.parchment-texture').forEach((card, index) => {
+            card.style.animation = `float ${3 + index}s ease-in-out infinite alternate`;
+        });
+
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes float {
+                from { transform: translateY(0); }
+                to { transform: translateY(-5px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body></html>

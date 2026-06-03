@@ -1,0 +1,214 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+    color: #f8fafc;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Premium Glassmorphism Container */
+.glass-container {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+    padding: 3rem;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(to right, #38bdf8, #818cf8, #c084fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    color: #94a3b8;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+/* Input Section */
+.input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+textarea {
+    width: 100%;
+    height: 120px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1rem;
+    color: #f8fafc;
+    font-size: 1rem;
+    resize: none;
+    transition: all 0.3s ease;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #818cf8;
+    box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
+}
+
+button {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4);
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 20px -3px rgba(99, 102, 241, 0.5);
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Result Section */
+.result-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.emoji-display {
+    font-size: 6rem;
+    margin-bottom: 1rem;
+    display: inline-block;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));
+    transform-origin: bottom center;
+}
+
+#laughingVideo {
+    max-width: 100%;
+    max-height: 250px;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.3);
+}
+
+.status-text {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #94a3b8;
+    margin-bottom: 1.5rem;
+    min-height: 2rem;
+}
+
+/* Confidence Bar */
+.hidden {
+    display: none !important;
+}
+
+.confidence-container {
+    text-align: left;
+}
+
+.confidence-label {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.confidence-track {
+    width: 100%;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.confidence-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+    border-radius: 999px;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+/* === DYNAMIC LAUGHING ANIMATIONS === */
+
+/* Level 1: Light chuckle (70% - 89% confidence) */
+.laugh-light {
+    animation: chuckle 1.5s ease-in-out infinite alternate;
+}
+@keyframes chuckle {
+    0% { transform: scale(1) translateY(0); }
+    50% { transform: scale(1.05) translateY(-5px) rotate(2deg); }
+    100% { transform: scale(1.02) translateY(-2px) rotate(-2deg); }
+}
+
+/* Level 2: Medium laugh (90% - 95% confidence) */
+.laugh-medium {
+    animation: laughMed 0.8s ease-in-out infinite alternate;
+}
+@keyframes laughMed {
+    0% { transform: scale(1) translateY(0); }
+    25% { transform: scale(1.1) translateY(-10px) rotate(5deg); }
+    50% { transform: scale(1.05) translateY(-5px) rotate(-5deg); }
+    75% { transform: scale(1.15) translateY(-15px) rotate(4deg); }
+    100% { transform: scale(1.08) translateY(-8px) rotate(-4deg); }
+}
+
+/* Level 3: Intense LMAO (96%+ confidence) */
+.laugh-intense {
+    animation: lmao 0.3s ease-in-out infinite alternate;
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6));
+}
+@keyframes lmao {
+    0% { transform: scale(1.1) translateY(0) rotate(0deg); }
+    25% { transform: scale(1.3) translateY(-20px) rotate(10deg); }
+    50% { transform: scale(1.2) translateY(-10px) rotate(-10deg); }
+    75% { transform: scale(1.4) translateY(-30px) rotate(12deg); }
+    100% { transform: scale(1.25) translateY(-15px) rotate(-12deg); }
+}
+
+/* Not funny at all */
+.shake-no {
+    animation: headshake 0.5s ease-in-out;
+}
+@keyframes headshake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-15px); }
+    50% { transform: translateX(15px); }
+    75% { transform: translateX(-15px); }
+    100% { transform: translateX(0); }
+}
